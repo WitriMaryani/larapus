@@ -11,7 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/app.css')}}" rel="stylesheet">
+    <link href="{{ asset('/css/jquery.dataTables.css')}}" rel="stylesheet">
+    <link href="{{ asset('/css/dataTables.bootstrap.css')}}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -39,6 +41,9 @@
                         @if (Auth::check())
                         <li><a href="{{ url('/home')}}">Dashboard</a></li>
                         @endif
+                        @role('admin')
+                        <li><a href="{{route('author.index')}}">Penulis</a></li>
+                        @endrole
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -46,7 +51,6 @@
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login')}}">Login</a></li>
-                            <li><a href="{{ url('/register')}}">Register</a></li>
                             <li><a href="{{ url('/register')}}">Daftar</a></li>
                         @else
                             <li class="dropdown">
@@ -78,7 +82,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{asset('/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('/js/dataTables.bootstrap.min.js')}}"></script>
     @yield('script')
 </body>
 </html>
