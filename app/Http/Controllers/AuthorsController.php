@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
+use App\Author;
+use Session;
 
 class AuthorsController extends Controller
 {
@@ -18,11 +20,17 @@ class AuthorsController extends Controller
         //
         if ($request->ajax()) {
             $authors = Author::select(['id','name']);
-            return Datatables::of($authors)->make(true);
+            return Datatables::of($authors)
+                ->addColumn('action',function($author){
+                    return view('datatable._action', [
+                        'edit_url'=> route('authors.edit', $author->id),
+                    ]);
+            })->make(true);
         }
 
         $html = $htmlBuilder
-            ->addColumn(['data'=>'name','name'=>'name','title'=>'Nama']);
+            ->addColumn(['data'=>'name','name'=>'name','title'=>'Nama'])
+            ->addColumn(['data'=>'action','name'=>'action','title'=>'','orderable'=>false,'searchable'=>false]);
 
         return view('authors.index')->with(compact('html'));
     }
@@ -48,7 +56,11 @@ class AuthorsController extends Controller
     {
         //
         $this->validate($request,['name'=>'required|unique:authors']);
-        $author = Author::create($request->all());
+        $author = Author::create($request->only('name'));
+        Session::flash("flash_notification", [
+        	"level"=>"success",
+        	"message"=>"Berhasil menyimpan $author->name"
+        	]);
         return redirect()->route('author.index');
     }
 
@@ -72,6 +84,8 @@ class AuthorsController extends Controller
     public function edit($id)
     {
         //
+        $author = Author::find($id);
+        return view('authors.edit')->with(compact('author'));
     }
 
     /**

@@ -14,7 +14,7 @@
 				</div>
 
 				<div class="panel-body">
-					<p><a href="{{author.create}}" class="btn btn-primary">Tambah</a></p>
+					<p><a class="btn btn-primary" href="{{ route('author.create') }}">Tambah</a></p>
 					{!! $html->table(['class'=>'table-striped']) !!}
 				</div>
 			</div>

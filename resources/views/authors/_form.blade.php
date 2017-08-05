@@ -8,6 +8,6 @@
 
 <div class="form-group">
 	<div class="col-md-4 col-md-offset-2">
-		{!! Form::submit('Simpan',['class'=>btn btn-primary]) !!}
+		{!! Form::submit('Simpan',['class'=>'btn btn-primary']) !!}
 	</div>
 </div>
